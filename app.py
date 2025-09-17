@@ -1,17 +1,17 @@
 import streamlit as st
 from langchain_groq import ChatGroq
-from langchain.chains import LLMMathChain, LLMChain
+from langchain.chains import LLMMathChain
 from langchain.prompts import PromptTemplate
 from langchain_community.utilities import WikipediaAPIWrapper
 from langchain.agents.agent_types import AgentType
 from langchain.agents import Tool, initialize_agent
 from langchain_community.callbacks.streamlit import StreamlitCallbackHandler
 
-## Set upi the Stramlit app
-st.set_page_config(page_title="Text To MAth Problem Solver And Data Serach Assistant", page_icon="🧮")
-st.title("Text To Math Problem Solver Uing :blue[Google Gemma 2]")
+## Set up the Stramlit app
+st.set_page_config(page_title="Text To Math Problem Solver And Data Search Assistant", page_icon="🧮")
+st.title("🧠 Text To Math Problem Solver Using :blue[Google Gemma 2]")
 
-groq_api_key=st.sidebar.text_input(label="Groq API Key", type="password")
+groq_api_key = st.sidebar.text_input(label="Groq API Key", type="password")
 
 
 if not groq_api_key:
@@ -19,7 +19,6 @@ if not groq_api_key:
     st.stop()
 
 llm = ChatGroq(model="Gemma2-9b-It", groq_api_key=groq_api_key)
-
 
 ## Initializing the tools
 wikipedia_wrapper = WikipediaAPIWrapper()
@@ -29,8 +28,7 @@ wikipedia_tool = Tool(
     description = "A tool for searching the Internet to find the information on the topics mentioned"
 )
 
-## Initializa the MAth tool
-
+## Initializa the Math tool
 math_chain = LLMMathChain.from_llm(llm = llm)
 calculator = Tool(
     name = "Calculator",
@@ -60,8 +58,7 @@ reasoning_tool = Tool(
 )
 
 ## initialize the agents
-
-assistant_agent = initialize_agent(
+agent_executor = initialize_agent(
     llm = llm,
     tools = [wikipedia_tool, calculator, reasoning_tool],
     agent = AgentType.ZERO_SHOT_REACT_DESCRIPTION,
@@ -82,12 +79,12 @@ question = st.text_area("Enter your question:","I have 5 bananas and 7 grapes. I
 
 if st.button("Get Solution"):
     if question:
-        with st.spinner("Generate response..."):
+        with st.spinner("Generating response..."):
             st.session_state.messages.append({"role":"user", "content":question})
             st.chat_message("user").write(question)
 
             st_cb = StreamlitCallbackHandler(st.container(), expand_new_thoughts=False)
-            response = assistant_agent.run(st.session_state.messages,callbacks=[st_cb])
+            response = agent_executor.run(st.session_state.messages, callbacks=[st_cb])
             st.session_state.messages.append({'role':'assistant', "content":response})
             st.write('### Response:')
             st.success(response)
