@@ -10,7 +10,7 @@
 A Streamlit-based intelligent assistant that combines mathematical problem-solving capabilities with data search functionality, powered by Google's Gemma 2 model via Groq API.
 
 # Demo
-![MATH Demo](assets/ui_1.png)
+
 ![MATH Demo](assets/ui_2.png)
 ![MATH Demo](assets/ui_3.png)
 ![MATH Demo](assets/ui_4.png)
