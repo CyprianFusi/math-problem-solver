@@ -15,7 +15,7 @@ groq_api_key = st.sidebar.text_input(label="Groq API Key", type="password")
 
 
 if not groq_api_key:
-    st.info("Please add your Groq APPI key to continue")
+    st.info("Please add your Groq API key to continue")
     st.stop()
 
 llm = ChatGroq(model="Gemma2-9b-It", groq_api_key=groq_api_key)
@@ -25,7 +25,7 @@ wikipedia_wrapper = WikipediaAPIWrapper()
 wikipedia_tool = Tool(
     name = "Wikipedia",
     func = wikipedia_wrapper.run,
-    description = "A tool for searching the Internet to find the information on the topics mentioned"
+    description = "A tool for searching the Internet for information on the topics mentioned"
 )
 
 ## Initializa the Math tool
@@ -37,7 +37,7 @@ calculator = Tool(
 )
 
 prompt_template = """
-You're an agent tasked with solving users mathemtical question. Use logical steps to arrive at the solution for 
+You're an agent tasked with solving users' mathemtical questions. Use logical steps to arrive at the solution for 
 the question below and provide a detailed explanation. Display your reasoning using bullet points. 
 Question:{question}
 Answer:
