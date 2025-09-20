@@ -114,7 +114,7 @@ These tools are orchestrated by a ZERO_SHOT_REACT_DESCRIPTION agent that determi
 
 ## 📝 License
 
-This project is open source and available under the [MIT License](LICENSE).
+This project is open source and available under the [MIT License](https://raw.githubusercontent.com/Dogfalo/materialize/master/LICENSE).
 
 ## 🐛 Troubleshooting
 
